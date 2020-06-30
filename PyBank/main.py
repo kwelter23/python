@@ -1,18 +1,22 @@
+# import os and csv
 import os
 
 import csv
 
 csvpath =os.path.join('..', 'PyBank', 'Resources', 'budget_data.csv')
 
+#write to text file
 outputpath = os.path.join('..', 'PyBank', 'Resources', 'results.txt')
 
 results = open(outputpath, "w")
 
+#print titles
 print("Financial Analysis")
 results.write("Financial Analysis\n")
 print("----------------------------")
 results.write("----------------------------\n")
 
+#Loop
 with open(csvpath) as csvfile:
 
     csvreader = csv.reader(csvfile, delimiter=',')
@@ -34,9 +38,11 @@ with open(csvpath) as csvfile:
         Total_Months=(Total_Months+1)
         Total_Amount += float(row[1])
         Change = float(Next_Line[1]) - float(Current_Line[1])
+       #Calculate greatest change
         if Change > Greatest_Change:
             Greatest_Change = Change
             Greatest_Month = row[0]
+        #Calculate smallest change
         if Change < Smallest_Change:
             Smallest_Change = Change
             Smallest_Month = row[0]
@@ -45,9 +51,10 @@ with open(csvpath) as csvfile:
 
         Current_Line = Next_Line
         
-
+    #calculate average changes
     Average_Changes = round(float(Total_Changes/Total_Months-1), 2)
-        
+
+    #print to terminal and text file    
     print(f"Total Months: {Total_Months}")
     results.write(f"Total Months: {Total_Months}\n")
     print(f"Total: ${Total_Amount}")
